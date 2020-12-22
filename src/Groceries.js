@@ -2,7 +2,9 @@ import React from 'react';
 import axios from 'axios';
 
 import { connect } from 'react-redux';
+import { createGrocery, updateGrocery } from './store';
 
+//jsx part 
 const _Groceries = ({ groceries, view, toggle, create })=> {
   return (
     <div>
@@ -20,21 +22,23 @@ const _Groceries = ({ groceries, view, toggle, create })=> {
   );
 };
 
+//allows us to change store 
 const mapDispatchToProps = (dispatch)=> {
   return {
     toggle: async(grocery)=>{
       const updated = (await axios.put(`/api/groceries/${grocery.id}`, { purchased: !grocery.purchased })).data;
-      dispatch({ type: 'UPDATE', grocery: updated});
+      dispatch(updateGrocery(updated));
 
     }, 
     create: async()=>{
       const grocery = (await axios.post('/api/groceries/random')).data;
-      dispatch({ type: 'CREATE', grocery });
+      dispatch(createGrocery(grocery));
 
     } 
   };
 };
 
+//of so the react-redux allows us to connect to components the store directly 
 const Groceries = connect(state => state, mapDispatchToProps)(_Groceries);
 
 export default Groceries;

@@ -3,12 +3,12 @@ import { render } from 'react-dom';
 import { connect, Provider } from 'react-redux';
 import axios from 'axios';
 import Nav from './Nav';
-import store from './store';
+import store, { loadGroceries, setView } from './store';
 import Groceries from './Groceries';
 import CreateForm from './CreateForm';
 
 
-
+//this was my regular app component
 class _App extends Component{
   componentDidMount(){
     this.props.bootstrap();
@@ -18,7 +18,6 @@ class _App extends Component{
     this.props.setView(window.location.hash.slice(1));
   }
   render(){
-    const { groceries, view } = this.props;
     return (
       <div>
         <h1>Acme Groceries</h1>
@@ -30,21 +29,19 @@ class _App extends Component{
   }
 }
 
+//this is the new guy that helps me connect to the store/state
 const App = connect(
   state => state,
   (dispatch)=> {
     return {
-      setView: (view)=> dispatch({ type: 'SET_VIEW', view }), 
+      setView: (view)=> dispatch(setView(view)), 
       bootstrap: async()=> {
         const groceries = (await axios.get('/api/groceries')).data;
-        dispatch({
-          type: 'LOAD',
-          groceries
-        })
+        dispatch(loadGroceries(groceries));
       } 
     }
   }
 )(_App);
 
-
+//don't really understand need to learn it connects the app to the store but confused about the details
 render(<Provider store={ store }><App /></Provider>, document.querySelector('#root'));

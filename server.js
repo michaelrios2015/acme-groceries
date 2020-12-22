@@ -61,7 +61,7 @@ const init = async()=> {
 
 const Sequelize = require('sequelize');
 const { STRING, BOOLEAN } = Sequelize;
-const conn = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/acme_grocery_db');
+const conn = new Sequelize(process.env.DATABASE_URL || 'postgres://postgres:JerryPine@localhost/acme_grocery_db');
 const faker = require('faker');
 
 const Grocery = conn.define('grocery', {
