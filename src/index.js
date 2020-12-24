@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { connect, Provider } from 'react-redux';
-import axios from 'axios';
 import Nav from './Nav';
 import store, { loadGroceries, setView } from './store';
 import Groceries from './Groceries';
@@ -35,9 +34,8 @@ const App = connect(
   (dispatch)=> {
     return {
       setView: (view)=> dispatch(setView(view)), 
-      bootstrap: async()=> {
-        const groceries = (await axios.get('/api/groceries')).data;
-        dispatch(loadGroceries(groceries));
+      bootstrap: ()=> {
+        dispatch(loadGroceries());
       } 
     }
   }

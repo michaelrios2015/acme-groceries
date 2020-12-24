@@ -1,8 +1,7 @@
 import React from 'react';
-import axios from 'axios';
 
 import { connect } from 'react-redux';
-import { createGrocery, updateGrocery } from './store';
+import { createGroceryRandom, updateGrocery } from './store';
 
 //jsx part 
 const _Groceries = ({ groceries, view, toggle, create })=> {
@@ -25,14 +24,13 @@ const _Groceries = ({ groceries, view, toggle, create })=> {
 //allows us to change store 
 const mapDispatchToProps = (dispatch)=> {
   return {
-    toggle: async(grocery)=>{
-      const updated = (await axios.put(`/api/groceries/${grocery.id}`, { purchased: !grocery.purchased })).data;
-      dispatch(updateGrocery(updated));
+    toggle: (grocery)=>{
+      //console.log(grocery);
+      dispatch(updateGrocery(grocery));
 
     }, 
-    create: async()=>{
-      const grocery = (await axios.post('/api/groceries/random')).data;
-      dispatch(createGrocery(grocery));
+    create: ()=>{
+      dispatch(createGroceryRandom());
 
     } 
   };
